@@ -28,28 +28,28 @@ export function serviceWorkerRequest<K extends WorkerIncomingMessageTypes>(type:
 }
 
 export function initServiceWorker() {
-  SW.register({ scope: '/' })
+  SW.register()
 
   navigator.serviceWorker.ready.then((registration) => {
     log('Service worker loaded with scope:', registration.scope, navigator.serviceWorker.controller)
     resendPendingRequests()
-  })
 
-  navigator.serviceWorker.addEventListener('message', (event) => {
-    const data = event.data as WorkerOutcomingMessage
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      const data = event.data as WorkerOutcomingMessage
 
-    // response
-    if (data.id) {
-      const { id, payload } = data
-      const resolve = pendingRequests.get(id)
+      // response
+      if (data.id) {
+        const { id, payload } = data
+        const resolve = pendingRequests.get(id)
 
-      if (resolve) {
-        resolve(payload)
-        pendingRequests.delete(id)
+        if (resolve) {
+          resolve(payload)
+          pendingRequests.delete(id)
+        }
+      } else {
+        log('Unknown message', data)
       }
-    } else {
-      log('Unknown message', data)
-    }
+    })
   })
 }
 

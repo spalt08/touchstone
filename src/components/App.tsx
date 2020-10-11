@@ -51,7 +51,7 @@ export default function App() {
       setRunning(true)
       setResults([])
 
-      const worker = new Worker(`/benchmark/${benchmarkId}`)
+      const worker = new Worker(`./benchmark/${benchmarkId}`)
 
       worker.addEventListener('message', (event) => {
         const message = event.data

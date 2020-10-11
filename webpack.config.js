@@ -4,6 +4,7 @@ const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin')
 
 const srcDir = 'src'
 const distDir = 'dist'
+const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   mode: 'development',
@@ -36,6 +37,7 @@ module.exports = {
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, 'src/worker/service_worker.ts'),
       filename: 'sw.js',
+      publicPath: './',
       excludes: ['**/*'],
     }),
   ],

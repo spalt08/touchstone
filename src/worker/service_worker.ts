@@ -42,14 +42,20 @@ ctx.addEventListener('fetch', (event) => {
   const {
     request: { url },
   } = event
-  const [, path, scope] = /http[:s]+\/\/.*?(\/(.*?)\/.*$)/.exec(url) || []
 
-  switch (scope) {
-    case 'benchmark':
-      event.respondWith(buildBenchmarkScript(path.split('/').pop() || ''))
-      break
-
-    default:
-      event.respondWith(fetch(url))
+  if (url.includes('/benchmark/')) {
+    event.respondWith(buildBenchmarkScript(url.split('/').pop() || ''))
+  } else {
+    event.respondWith(fetch(url))
   }
+  // const [, path, scope] = /http[:s]+\/\/.*?(\/(.*?)\/.*$)/.exec(url) || []
+
+  // switch (scope) {
+  //   case 'benchmark':
+  //     event.respondWith(buildBenchmarkScript(path.split('/').pop() || ''))
+  //     break
+
+  //   default:
+  //     event.respondWith(fetch(url))
+  // }
 })
