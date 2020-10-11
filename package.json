@@ -1,0 +1,48 @@
+{
+  "name": "jsbnch",
+  "version": "1.0.0",
+  "description": "JS benchmark",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx,.js --quiet --fix",
+    "start": "webpack-dev-server --open",
+    "start:storybook": "start-storybook -p 9096"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spalt08/jsbnch.git"
+  },
+  "author": "Konstantin Darutkin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spalt08/jsbnch/issues"
+  },
+  "homepage": "https://github.com/spalt08/jsbnch#readme",
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@monaco-editor/react": "^3.6.2",
+    "monaco-editor": "^0.20.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-hook-form": "^6.9.2",
+    "react-query": "^2.23.1"
+  },
+  "devDependencies": {
+    "@storybook/react": "^6.0.21",
+    "@types/react": "^16.9.49",
+    "@types/react-dom": "^16.9.8",
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.10.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "html-webpack-plugin": "^4.5.0",
+    "prettier": "^2.1.2",
+    "serviceworker-webpack-plugin": "^1.0.1",
+    "ts-loader": "^8.0.4",
+    "typescript": "^4.0.3",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
