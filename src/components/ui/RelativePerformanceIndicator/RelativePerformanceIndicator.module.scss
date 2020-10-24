@@ -1,0 +1,22 @@
+.container {
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+
+  &.slower {
+    color: var(--red-text-color);
+  }
+
+  &.fastest {
+    color: var(--green-text-color);
+  }
+}
+
+.icon {
+  margin-right: 6px;
+}
+
+.iconFill {
+  fill: currentColor;
+}

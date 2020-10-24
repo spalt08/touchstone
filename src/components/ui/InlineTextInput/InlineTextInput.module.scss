@@ -1,0 +1,20 @@
+.container {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  color: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.input {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 102%;
+  height: 100%;
+  border: none;
+  appearance: none;
+  outline: none;
+  padding: 0;
+}

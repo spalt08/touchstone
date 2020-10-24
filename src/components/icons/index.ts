@@ -1,0 +1,6 @@
+export { default as CircleArrowBottom } from './CircleArrowBottom'
+export { default as CirclePlus } from './CirclePlus'
+export { default as CircleTarget } from './CircleTarget'
+export { default as Play } from './Play'
+export { default as Plus } from './Plus'
+export { default as Share } from './Share'

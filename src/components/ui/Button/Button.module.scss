@@ -1,0 +1,36 @@
+.button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--accent-color);
+  color: var(--accent-inner-text);
+  border-radius: 6px;
+  border: none;
+  padding: 4px 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 175%;
+  cursor: pointer;
+  outline: none;
+
+  &.text {
+    background-color: transparent;
+    color: var(--accent-color);
+  }
+
+  &.outlined {
+    background-color: transparent;
+    color: var(--primary-text-color);
+    border: 1px solid var(--border-color);
+    padding: 3px 12px;
+  }
+}
+
+.icon {
+  margin-right: 6px;
+  margin-left: -4px;
+}
+
+.iconFill {
+  fill: currentColor;
+}

@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+  max-width: var(--grid-max-width);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+  margin-right: 14px;
+}
+
+.section {
+  flex: 1;
+  display: flex;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  &:last-child {
+    justify-content: flex-end;
+  }
+
+  &.name {
+    flex: 2;
+    color: var(--secondary-text-color);
+    justify-content: center;
+  }
+}

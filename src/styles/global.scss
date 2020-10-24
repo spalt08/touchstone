@@ -1,0 +1,26 @@
+@import './variables.scss';
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+
+div,
+textarea {
+  box-sizing: border-box;
+}
+
+body,
+input,
+button,
+textarea {
+  font-family: 'Inter', sans-serif;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
