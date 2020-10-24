@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Box, Button, CircularProgress, Grid, TextareaAutosize, Typography } from '@material-ui/core'
 import { useForm } from 'react-hook-form'
 import { useBenchmarkSetup } from 'hooks/benchmark'
+import { BenchmarkSetupEdit, Header, Section, TestCaseEdit, Wrapper } from './layouts'
+import { Button } from './ui'
 
 // temporary onboarding
 if (localStorage.getItem('setupCode') === null) {
@@ -70,53 +71,50 @@ export default function App() {
     return () => null
   }, [isBenchmarkReady, benchmarkId])
 
+  const opsec = []
+
+  for (let i = 0; i < results.length; i++) {
+    const match = results[i].match(/x ([0-9,]+)/)
+
+    if (match) {
+      opsec[i] = +match[1].replace(/,/g, '')
+    }
+  }
+
+  const opsecMax = Math.max(...opsec) || 0
+
   for (let i = 0; i < suitesCount; i++) {
     const key = `suite_${i}`
     editors[i] = (
-      <TextareaAutosize
-        key={key}
-        ref={register()}
-        name={key}
-        defaultValue={localStorage.getItem(key) || undefined}
-        placeholder={`Suite #${i + 1}`}
-        rowsMin={5}
-      />
+      <Wrapper key={key}>
+        <TestCaseEdit
+          opsec={opsec[i]}
+          opsecMax={opsecMax}
+          register={register}
+          inputName={key}
+          defaultCode={localStorage.getItem(key) || undefined}
+          title={`Test Case #${i + 1}`}
+          resultText={results[i]}
+        />
+      </Wrapper>
     )
   }
-
   return (
-    <Box p={4} component='form' onSubmit={handleSubmit(onRunBenchmark)}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant='h4'>Setup code:</Typography>
-          <Box display='flex' flexDirection='column' alignItems='stretch' marginTop={1}>
-            <TextareaAutosize
-              defaultValue={localStorage.getItem('setupCode') || undefined}
-              name='setupCode'
-              ref={register()}
-              placeholder='Insert your setup code here'
-              rowsMin={5}
-            />
-          </Box>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Typography variant='h4'>Suites:</Typography>
-          <Box display='flex' flexDirection='column' alignItems='stretch' marginTop={1}>
-            {editors}
-          </Box>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Button onClick={onAddMore}>Add more</Button>
-          <Button type='submit'>Run benchmark</Button>
-        </Grid>
-
-        <Grid item xs={12}>
-          <pre>{results.join('\n')}</pre>
-          {isRunning && <CircularProgress />}
-        </Grid>
-      </Grid>
-    </Box>
+    <>
+      <Header />
+      <form
+        style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        onSubmit={handleSubmit(onRunBenchmark)}
+      >
+        <Section>
+          <Wrapper>
+            <BenchmarkSetupEdit javaScriptCode={localStorage.getItem('setupCode') || undefined} register={register} />
+          </Wrapper>
+        </Section>
+        {isRunning && 'Running...'}
+        {editors}
+      </form>
+      <Button onClick={onAddMore}>Add more</Button>
+    </>
   )
 }

@@ -14,6 +14,12 @@ ctx.addEventListener('install', (event) => {
   event.waitUntil(ctx.skipWaiting())
 })
 
+ctx.addEventListener('activate', (event) => {
+  log('Service worker is activating')
+
+  event.waitUntil(ctx.skipWaiting())
+})
+
 /**
  * Handling incoming messages
  */

@@ -6,6 +6,7 @@ const srcDir = 'src'
 const distDir = 'dist'
 const isProduction = process.env.NODE_ENV === 'production'
 
+// TODO: add postcss and autoprefixer
 module.exports = {
   mode: 'development',
   entry: {
@@ -22,13 +23,42 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: '/node_modules/'
-      }
+      },
+      {
+        test: /\.scss$/,
+        exclude: /\.module\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: false,
+              sourceMap: true,
+            }
+          },
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.module\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              sourceMap: true,
+            }
+          },
+          'sass-loader',
+        ]
+      },
     ],
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, distDir),
-    publicPath: './'
+    publicPath: isProduction ? './' : '/',
   },
   plugins: [
     new HtmlWebpackPlugin({
