@@ -24,3 +24,9 @@ Outlined.args = {
   icon: 'Share',
   variant: 'outlined',
 }
+
+export const Area = (args: Props) => <Button {...args}>Add Test Case</Button>
+Area.args = {
+  icon: 'Plus',
+  variant: 'area',
+}

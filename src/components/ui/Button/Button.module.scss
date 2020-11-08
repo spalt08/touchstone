@@ -24,6 +24,21 @@
     border: 1px solid var(--border-color);
     padding: 3px 12px;
   }
+
+  &.area {
+    width: 100%;
+    display: flex;
+    height: 80px;
+    background-color: transparent;
+    color: var(--secondary-text-color);
+    border: 1px solid var(--border-color);
+    justify-content: center;
+
+    &:hover {
+      color: var(--primary-text-color);
+      border: 1px solid var(--border-color);
+    }
+  }
 }
 
 .icon {

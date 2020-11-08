@@ -1,3 +1,8 @@
+.container {
+  margin-bottom: 48px;
+  position: relative;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -11,6 +16,7 @@
   font-size: 1.15rem;
   line-height: 150%;
   color: var(--primary-text-color);
+  margin-right: 24px;
 }
 
 .operations {
@@ -23,4 +29,15 @@
 
 .relativeResults {
   margin-left: 16px;
+}
+
+.deleteIcon {
+  position: absolute;
+  right: 6px;
+  bottom: 12px;
+  cursor: pointer;
+}
+
+.deleteIconFill {
+  fill: var(--secondary-text-color);
 }

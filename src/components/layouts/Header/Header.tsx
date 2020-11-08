@@ -1,5 +1,5 @@
 import React, { memo } from 'react'
-import { Logo, Button, InlineTextInput } from 'components/ui'
+import { Logo, Button, InlineTextInput, AvatarPlaceholder } from 'components/ui'
 import styles from './Header.module.scss'
 import clsx from 'clsx'
 
@@ -13,12 +13,13 @@ export default memo(function Header() {
         </Button>
       </div>
       <div className={clsx(styles.section, styles.name)}>
-        <InlineTextInput className={styles.nameEdit} defaultValue='Untitled benchmark' /> 3 min ago
+        <InlineTextInput className={styles.nameEdit} defaultValue='Untitled benchmark' />
+        {/* 3 min ago */}
       </div>
       <div className={styles.section}>
-        <Button variant='outlined' icon='Share'>
-          Share
-        </Button>
+        <div className={styles.disclaimer}>Save to fork or share</div>
+        <Button variant='outlined'>Save</Button>
+        <AvatarPlaceholder className={styles.avatar} />
       </div>
     </header>
   )

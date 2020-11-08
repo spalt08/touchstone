@@ -8,8 +8,8 @@ export default memo(function Logo({ className }: Props) {
   return (
     <svg
       width='20'
-      className={className}
       height='24'
+      className={className}
       viewBox='0 0 20 24'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
@@ -24,12 +24,12 @@ export default memo(function Logo({ className }: Props) {
       />
       <defs>
         <linearGradient id='paint0_linear' x1='20' y1='0' x2='0' y2='0' gradientUnits='userSpaceOnUse'>
-          <stop stopColor='#2136F2' />
-          <stop offset='1' stopColor='#2136F2' stopOpacity='0.25' />
+          <stop stopColor='#2B38AE' />
+          <stop offset='1' stopColor='#2B38AE' stopOpacity='0.32' />
         </linearGradient>
         <linearGradient id='paint1_linear' x1='20' y1='8' x2='0' y2='8' gradientUnits='userSpaceOnUse'>
-          <stop stopColor='#1BF2D8' />
-          <stop offset='1' stopColor='#1BF2D8' stopOpacity='0.4' />
+          <stop stopColor='#06F1D5' />
+          <stop offset='1' stopColor='#06F1D5' stopOpacity='0.4' />
         </linearGradient>
       </defs>
     </svg>

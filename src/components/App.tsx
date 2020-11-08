@@ -22,6 +22,10 @@ export default function App() {
   const [results, setResults] = useState<string[]>([])
   const editors = new Array(suitesCount)
 
+  const onDeleteCase = useCallback(() => {
+    setSuitesCount((value) => value - 1)
+  }, [])
+
   const onAddMore = useCallback((event: React.MouseEvent) => {
     event.preventDefault()
     setSuitesCount((value) => value + 1)
@@ -91,10 +95,12 @@ export default function App() {
           opsec={opsec[i]}
           opsecMax={opsecMax}
           register={register}
+          isRunning={isRunning && opsec.length === i}
           inputName={key}
           defaultCode={localStorage.getItem(key) || undefined}
           title={`Test Case #${i + 1}`}
           resultText={results[i]}
+          onDelete={onDeleteCase}
         />
       </Wrapper>
     )
@@ -111,10 +117,14 @@ export default function App() {
             <BenchmarkSetupEdit javaScriptCode={localStorage.getItem('setupCode') || undefined} register={register} />
           </Wrapper>
         </Section>
-        {isRunning && 'Running...'}
         {editors}
+        <Wrapper>
+          <Button variant='area' icon='Plus' onClick={onAddMore}>
+            Add Test Case
+          </Button>
+        </Wrapper>
+        <div style={{ height: '80px' }}></div>
       </form>
-      <Button onClick={onAddMore}>Add more</Button>
     </>
   )
 }

@@ -1,0 +1,36 @@
+.container {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+}
+
+.input {
+  outline: none;
+  appearance: none;
+  border: none;
+  display: block;
+  line-height: 24px;
+  background-color: transparent;
+  color: var(--primary-text-color);
+  flex-grow: 1;
+
+  &::placeholder {
+    color: var(--secondary-text-color);
+  }
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.iconFill {
+  fill: var(--secondary-text-color);
+}
+
+// Only for storybook presentation
+.__storybook {
+  width: 450px;
+}
