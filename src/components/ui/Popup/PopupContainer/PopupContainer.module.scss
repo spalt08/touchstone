@@ -1,0 +1,34 @@
+.opaco {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--popup-background-color);
+  // backdrop-filter: blur(3px) opacity(1);
+  transform: translate3d(0, 0, 0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--popup-base-color);
+  z-index: 999;
+  animation: opacoMounted var(--animation-duration-popup) ease-out;
+}
+
+.closing {
+  animation-name: oppacoHide;
+}
+
+@keyframes opacoMounted {
+  from {
+    background: var(--popup-background-color-transparent);
+    // backdrop-filter: blur(3px) opacity(0);
+  }
+}
+
+@keyframes oppacoHide {
+  to {
+    background: var(--popup-background-color-transparent);
+  }
+}

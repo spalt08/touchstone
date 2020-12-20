@@ -8,6 +8,7 @@ export type Props = {
   type?: 'button' | 'submit' | 'reset'
   icon?: keyof typeof icons
   variant?: 'filled' | 'text' | 'outlined' | 'area'
+  size?: 'medium' | 'big' | 'big-stretched'
   children: React.ReactNode
   onClick?: (event: React.MouseEvent) => unknown
 }
@@ -18,12 +19,13 @@ export default memo(function Button({
   children,
   className,
   variant = 'filled',
+  size = 'medium',
   icon,
 }: Props) {
   const IconComponent = typeof icon === 'string' && icons[icon]
 
   return (
-    <button onClick={onClick} type={type} className={clsx(styles.button, className, styles[variant])}>
+    <button onClick={onClick} type={type} className={clsx(styles.button, className, styles[variant], styles[size])}>
       {IconComponent && <IconComponent className={styles.icon} pathClassName={styles.iconFill} />}
       {children}
     </button>

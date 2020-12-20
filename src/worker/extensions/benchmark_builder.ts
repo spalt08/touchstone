@@ -50,7 +50,11 @@ export function buildBenchmarkScript(id: string): Response | Promise<Response> {
         .join('')}
 			
 			.on('cycle', function(event) {
-				self.postMessage(event.target.toString())
+				self.postMessage({
+          hz: event.target.hz,
+          size: event.target.stats.sample.length,
+          rme: event.target.stats.rme
+        })
 			})
 			.on('complete', function() {
 				self.postMessage('finish')

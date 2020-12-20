@@ -13,7 +13,12 @@
   background-color: var(--accent-color);
   color: var(--accent-inner-text);
   border: 1px solid var(--accent-color);
+  transition: background-color var(--animation-config-micro-transitions);
   position: relative;
+
+  &:hover {
+    background-color: var(--accent-color-hover);
+  }
 
   &.available {
     border-color: var(--border-color);
@@ -21,6 +26,12 @@
     border-right-color: transparent;
     color: var(--accent-color);
     background-color: #ffffff;
+    transition: color var(--animation-config-micro-transitions), border-color var(--animation-config-micro-transitions);
+
+    &:hover {
+      color: var(--accent-color-hover);
+      --border-color: var(--border-color-hover);
+    }
 
     & + & {
       border-left-color: var(--border-color);

@@ -2,6 +2,7 @@
   appearance: none;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background-color: var(--accent-color);
   color: var(--accent-inner-text);
   border-radius: 6px;
@@ -13,9 +14,23 @@
   cursor: pointer;
   outline: none;
 
+  // variants
+  &.filled {
+    transition: background-color var(--animation-config-micro-transitions);
+
+    &:hover {
+      background-color: var(--accent-color-hover);
+    }
+  }
+
   &.text {
     background-color: transparent;
     color: var(--accent-color);
+    transition: color var(--animation-config-micro-transitions);
+
+    &:hover {
+      color: var(--accent-color-hover);
+    }
   }
 
   &.outlined {
@@ -23,6 +38,12 @@
     color: var(--primary-text-color);
     border: 1px solid var(--border-color);
     padding: 3px 12px;
+    transition: border-color var(--animation-config-micro-transitions), color var(--animation-config-micro-transitions);
+
+    &:hover {
+      border-color: var(--border-color-hover);
+      color: var(--primary-text-color-hover);
+    }
   }
 
   &.area {
@@ -33,11 +54,22 @@
     color: var(--secondary-text-color);
     border: 1px solid var(--border-color);
     justify-content: center;
+    transition: border-color var(--animation-config-micro-transitions), color var(--animation-config-micro-transitions);
 
     &:hover {
       color: var(--primary-text-color);
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-color-hover);
     }
+  }
+
+  // sizes
+  &.big,
+  &.big-stretched {
+    height: 48px;
+  }
+
+  &.big-stretched {
+    width: 100%;
   }
 }
 

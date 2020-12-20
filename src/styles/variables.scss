@@ -3,12 +3,21 @@
 
 :root {
   --accent-color: #2b38ae;
+  --accent-color-hover: #3d48db;
   --accent-inner-text: #ffffff;
-  --border-color: #e9ebf0;
-  --primary-text-color: #141137;
+  --border-color: rgba(154, 156, 168, 0.24);
+  --border-color-hover: rgba(154, 156, 168, 0.48);
+  --primary-text-color: rgba(16, 14, 41, 1);
+  --primary-text-color-hover: rgba(16, 14, 41, 0.8);
   --secondary-text-color: #9a9ca8;
   --red-text-color: #e02f4f;
   --green-text-color: #44b556;
   --grid-max-width: 1120px;
   --grid-side-padding: 40px;
+  --animation-duration-popup: 0.3s;
+  --animation-config-micro-transitions: 0.2s ease-out;
+  --popup-base-color: #ffffff;
+  --popup-text-primary-color: #7f8194;
+  --popup-background-color: rgba(15, 14, 30, 0.8);
+  --popup-background-color-transparent: rgba(15, 14, 30, 0);
 }

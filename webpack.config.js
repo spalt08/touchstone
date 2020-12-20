@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin')
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 
 const srcDir = 'src'
 const distDir = 'dist'
@@ -20,12 +21,12 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.(tsx|ts)?$/,
         use: 'ts-loader',
         exclude: '/node_modules/'
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         exclude: /\.module\.scss$/,
         use: [
           'style-loader',
@@ -53,6 +54,18 @@ module.exports = {
           'sass-loader',
         ]
       },
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
+      }
     ],
   },
   output: {
@@ -70,11 +83,15 @@ module.exports = {
       publicPath: './',
       excludes: ['**/*'],
     }),
+    new MonacoWebpackPlugin({
+      languages: ['javascript', 'typescript', 'css', 'html'],
+      features: ['suggest', 'snippets', 'hover']
+    })
   ],
   devtool: 'inline-source-map',
   devServer: {
     contentBase: path.join(__dirname, distDir),
     compress: true,
     port: 4000
-  }
+  },
 }

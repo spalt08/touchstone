@@ -1,0 +1,42 @@
+.container {
+  background: var(--popup-base-color);
+  border-radius: 12px;
+  padding: 32px;
+  color: var(--popup-text-primary-color);
+  position: relative;
+  transform: translateY(0);
+  will-change: transform, opacity;
+  opacity: 1;
+  width: 400px;
+  max-width: 100%;
+  animation: popupMounted var(--animation-duration-popup) ease-out;
+}
+
+.containerClosing {
+  animation-name: popupHide;
+}
+
+.close {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  cursor: pointer;
+}
+
+.closeFill {
+  fill: #9a9ca8;
+}
+
+@keyframes popupMounted {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes popupHide {
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}

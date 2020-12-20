@@ -8,4 +8,7 @@ export default {
   decorators: [withLayout],
 }
 
-export const Default = (args: Props) => <CodeEditor {...args} placeholder='Write your code here...' />
+export const Default = (args: Props) => <CodeEditor {...args} />
+Default.args = {
+  defaultValue: 'const hello = "world"',
+}

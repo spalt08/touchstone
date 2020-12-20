@@ -5,6 +5,11 @@ import './styles.scss'
 export const parameters = {
   layout: 'centered',
   actions: { argTypesRegex: '^on[A-Z].*' },
+  options: {
+    storySort: {
+      method: 'alphabetical',
+    },
+  },
 }
 
 export const decorators = [

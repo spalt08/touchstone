@@ -1,52 +1,72 @@
-import { TrashCan } from 'components/icons'
-import { CodeEditor, InlineTextInput, RelativePerformanceIndicator, RunningIndicator } from 'components/ui'
-import Checkbox from 'components/ui/Checkbox/Checkbox'
 import React from 'react'
+
+import { TrashCan } from 'components/icons'
+import { CodeEditor, InlineTextInput, Checkbox, RunningIndicator, RelativePerformanceIndicator } from 'components/ui'
+import { BenchmarkTestResult, BenchmarkTestSuite } from 'helpers'
+
 import styles from './TestCaseEdit.module.scss'
 
 export type Props = {
-  title?: string
-  inputName?: string
-  defaultCode?: string
-  resultText?: string
-  opsec?: number
-  opsecMax?: number
+  localId: string
+  testSuite?: BenchmarkTestSuite
+  testResult?: BenchmarkTestResult
+  bestTestResult?: BenchmarkTestResult
   isRunning?: boolean
-  register?: () => (ref: HTMLTextAreaElement) => void
-  onDelete?: () => unknown
+  onDeleteIntent?: (localId: string) => unknown
+  onCodeUpdated?: (localId: string, data: string) => unknown
+  onDefferedUpdated?: (localId: string, data: boolean) => unknown
 }
 
 export default function TestCaseEdit({
-  title,
-  defaultCode,
-  inputName,
-  resultText,
-  opsec,
+  localId,
+  testSuite,
+  testResult,
+  bestTestResult,
   isRunning,
-  opsecMax,
-  onDelete,
-  register,
+  onDeleteIntent,
+  onCodeUpdated,
+  onDefferedUpdated,
 }: Props) {
-  const text = isRunning ? '' : resultText || 'Not tested yet'
+  let suiteDescription = 'Have not tested yet'
+  let suiteIndicator = null
+  const defaultTitle = testSuite?.title || 'Test Suite'
+
+  if (testResult && bestTestResult) {
+    suiteIndicator = (
+      <RelativePerformanceIndicator className={styles.relativeResults} max={bestTestResult.hz} value={testResult.hz} />
+    )
+  }
+
+  if (isRunning) {
+    suiteIndicator = <RunningIndicator />
+    suiteDescription = ''
+  }
+
+  if (testResult) {
+    suiteDescription =
+      testResult.hz.toFixed(0) +
+      ' ops/sec \xb1' +
+      testResult.rme.toFixed(2) +
+      '% (' +
+      testResult.size +
+      ' runs sampled)'
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <InlineTextInput defaultValue={title} className={styles.title} />
-        <Checkbox label='Deferred' />
-        <div className={styles.operations}>{text}</div>
-        {opsec && opsecMax && (
-          <RelativePerformanceIndicator className={styles.relativeResults} max={opsecMax} value={opsec} />
-        )}
-        {isRunning && <RunningIndicator />}
+        <InlineTextInput defaultValue={defaultTitle} className={styles.title} />
+        <Checkbox
+          label='Deferred'
+          defaultValue={testSuite?.isDeffered}
+          onChange={onDefferedUpdated?.bind(null, localId)}
+        />
+        <div className={styles.operations}>{suiteDescription}</div>
+        {suiteIndicator}
       </div>
-      <CodeEditor
-        name={inputName}
-        defaultValue={defaultCode}
-        register={register}
-        placeholder='Write your code here...'
-      />
-      <div className={styles.deleteIcon} onClick={onDelete}>
-        <TrashCan className={styles.deleteIconFill} />
+      <CodeEditor defaultValue={testSuite?.code} onBlur={onCodeUpdated?.bind(null, localId)} />
+      <div className={styles.deleteIcon} onClick={onDeleteIntent?.bind(null, localId)}>
+        <TrashCan pathClassName={styles.deleteIconFill} />
       </div>
     </div>
   )

@@ -33,9 +33,17 @@
 
 .deleteIcon {
   position: absolute;
-  right: 6px;
+  width: 16px;
+  height: 16px;
+  right: 12px;
   bottom: 12px;
   cursor: pointer;
+  opacity: 0.48;
+  transition: opacity var(--animation-config-micro-transitions);
+
+  &:hover {
+    opacity: 0.72;
+  }
 }
 
 .deleteIconFill {

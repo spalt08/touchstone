@@ -1,0 +1,19 @@
+.avatar {
+  border-radius: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-block;
+  border: 1px inset rgba(20, 17, 55, 0.08);
+  box-sizing: border-box;
+  transition: border-color var(--animation-config-micro-transitions);
+
+  &.small {
+    width: 32px;
+    height: 32px;
+  }
+
+  &:hover {
+    border-width: 2px;
+    border-color: var(--accent-color);
+  }
+}

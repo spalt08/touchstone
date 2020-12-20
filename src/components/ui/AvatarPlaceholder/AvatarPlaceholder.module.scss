@@ -8,4 +8,18 @@
   border-radius: 100%;
   cursor: pointer;
   outline: none;
+  transition: border-color var(--animation-config-micro-transitions);
+
+  &:hover {
+    border-color: var(--border-color-hover);
+  }
+}
+
+.iconFill {
+  fill: var(--secondary-text-color);
+  transition: fill var(--animation-config-micro-transitions);
+}
+
+.container:hover .iconFill {
+  fill: var(--accent-color);
 }

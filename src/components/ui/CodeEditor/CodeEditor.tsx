@@ -1,34 +1,70 @@
-import React, { useCallback, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import clsx from 'clsx'
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import styles from './CodeEditor.module.scss'
 
 export type Props = {
-  name?: string
-  register?: () => (ref: HTMLTextAreaElement) => void
+  onBlur?: (data: string) => unknown
   className?: string
-  placeholder?: string
   defaultValue?: string
 }
 
-export default function CodeEditor({ name, register, placeholder, defaultValue, className }: Props) {
-  const [value, setValue] = useState(defaultValue || '')
-  const lines = value.split('\n').length
-  const height = lines * 20 + 40
+// Default theme
+monaco.editor.defineTheme('default', {
+  base: 'vs',
+  inherit: true,
+  rules: [],
+  colors: {
+    'editor.background': '#f8f9fc',
+    'editorLineNumber.foreground': '#7F8194',
+    'editor.lineHighlightBorder': '#00000000',
+  },
+})
 
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.currentTarget.value)
-  }, [])
+monaco.editor.setTheme('default')
+
+export default function CodeEditor({ defaultValue, onBlur, className }: Props) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!ref.current) {
+      return
+    }
+
+    const handler = monaco.editor.create(ref.current, {
+      value: defaultValue,
+      language: 'typescript',
+      minimap: {
+        enabled: false,
+      },
+      scrollBeyondLastLine: false,
+      wordWrap: 'on',
+      wrappingStrategy: 'advanced',
+      overviewRulerLanes: 0,
+    })
+
+    // handle content changes on blur to reduce the rendering overload
+    if (onBlur) {
+      handler.onDidBlurEditorText(() => onBlur(handler.getValue()))
+    }
+
+    function dynamicallyUpdateHeight() {
+      if (ref.current) {
+        ref.current.style.height = `${handler.getContentHeight()}px`
+      }
+
+      handler.layout()
+    }
+
+    handler.onDidChangeModelContent(dynamicallyUpdateHeight)
+    dynamicallyUpdateHeight()
+
+    return () => handler.dispose()
+  }, [ref])
 
   return (
-    <textarea
-      name={name}
-      ref={register && register()}
-      spellCheck={false}
-      value={value}
-      onChange={handleChange}
-      style={{ height }}
-      className={clsx(styles.editor, className)}
-      placeholder={placeholder}
-    />
+    <div className={clsx(styles.container, className)}>
+      <div ref={ref} />
+    </div>
   )
 }
