@@ -3,7 +3,7 @@ import { BenchmarkEdit } from 'components/layouts'
 import { useBenchmarkSetup } from 'hooks/benchmark'
 import { BenchmarkTestResult, BenchmarkTestSuite } from 'helpers'
 
-export default function BenchmarkEditPage() {
+export function BenchmarkEditPage() {
   const [currentRunningSuite, setCurrentRunningSuite] = useState<number>(-1)
   const [testResults, setTestResuts] = useState<BenchmarkTestResult[]>([])
   const [setupWorker, { data: workerId }] = useBenchmarkSetup()

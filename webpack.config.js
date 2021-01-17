@@ -69,14 +69,19 @@ module.exports = {
     ],
   },
   output: {
-    filename: '[name].js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, distDir),
     publicPath: isProduction ? './' : '/',
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    index: 'index.html',
+    contentBase: path.join(__dirname, distDir),
+    compress: true,
+    historyApiFallback: true,
+    port: 4000,
+  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'index.html')
-    }),
     new ServiceWorkerWebpackPlugin({
       entry: path.join(__dirname, 'src/worker/service_worker.ts'),
       filename: 'sw.js',
@@ -86,12 +91,9 @@ module.exports = {
     new MonacoWebpackPlugin({
       languages: ['javascript', 'typescript', 'css', 'html'],
       features: ['suggest', 'snippets', 'hover']
-    })
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'index.html')
+    }),
   ],
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: path.join(__dirname, distDir),
-    compress: true,
-    port: 4000
-  },
 }
