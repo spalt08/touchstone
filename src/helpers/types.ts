@@ -1,8 +1,3 @@
-export type User = {
-  name: string
-  profileURL: string
-}
-
 export type BenchmarkTestSuite = {
   title: string
   code: string

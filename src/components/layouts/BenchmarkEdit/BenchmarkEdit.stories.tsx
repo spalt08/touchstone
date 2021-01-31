@@ -8,4 +8,4 @@ export default {
   decorators: [withLayout],
 }
 
-export const Default = (args: Props) => <BenchmarkEdit {...args} onTestRun={console.log} />
+export const Default = (args: Props) => <BenchmarkEdit {...args} onTestRun={() => undefined} />

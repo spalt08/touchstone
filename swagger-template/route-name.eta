@@ -1,0 +1,24 @@
+<%
+const {
+  routeInfo: {
+    operationId,
+    method,
+    route,
+    moduleName,
+  }
+} = it;
+
+// We should not allow methods without operation ID
+if (!operationId) {
+  throw new Error(`Missing operationId for ${route}`)
+}
+
+// Remove module name prefix from route name
+const prefixIndex = moduleName.length
+if (moduleName === operationId.slice(0, prefixIndex)) {
+  return operationId.charAt(prefixIndex).toLowerCase() + operationId.slice(prefixIndex + 1)
+}
+
+// Return operationId as route name if no prefix found
+return operationId
+%>

@@ -52,7 +52,7 @@ ctx.addEventListener('fetch', (event) => {
   if (url.includes('/benchmark/')) {
     event.respondWith(buildBenchmarkScript(url.split('/').pop() || ''))
   } else {
-    event.respondWith(fetch(url))
+    event.respondWith(fetch(event.request))
   }
   // const [, path, scope] = /http[:s]+\/\/.*?(\/(.*?)\/.*$)/.exec(url) || []
 

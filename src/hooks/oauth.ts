@@ -1,9 +1,13 @@
+import { useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
+import { GITHUB_CLIENT_ID } from 'const'
 import { generateId } from 'helpers'
+import { useGithubLoginMutation } from './api/user'
+import { useAuthorization } from './auth'
 
-// TODO: replace with env constant
-const githubClientId = '56beab967846d0088cbe'
-const githubClientSecret = '9283fe766c8ae966abdd9e7a5719959f216786e6'
 const origin = document.location.origin
+const fieldGithubState = 'github_oauth_state'
+const fieldRedirectUrl = 'github_oauth_redirect_url'
 
 /**
  * Ref: https://docs.github.com/en/free-pro-team@latest/developers/apps/authorizing-oauth-apps#1-request-a-users-github-identity
@@ -11,13 +15,14 @@ const origin = document.location.origin
 export function useGithubRedirect() {
   const redirectUri = encodeURIComponent(origin + '/oauth')
   const state = generateId(20)
+  const redirectUrl = document.location.href.slice(document.location.origin.length)
 
-  localStorage.setItem('github_oauth_state', state)
-  localStorage.setItem('github_oauth_redirect_url', document.location.href)
+  localStorage.setItem(fieldGithubState, state)
+  localStorage.setItem(fieldRedirectUrl, redirectUrl)
 
   return (
     `https://github.com/login/oauth/authorize` +
-    `?client_id=${githubClientId}` +
+    `?client_id=${GITHUB_CLIENT_ID}` +
     `&state=${state}` +
     `&allow_signup=true` +
     `&scope=user:email` +
@@ -30,20 +35,28 @@ export function useGithubRedirect() {
  * Ref: https://docs.github.com/en/free-pro-team@latest/developers/apps/authorizing-oauth-apps#2-users-are-redirected-back-to-your-site-by-github
  */
 export function useGithubCallbackBackgroundProcessing() {
-  const searchString = document.location.search.slice(1)
-  const { code, state } = searchString.split('&').reduce<Record<string, string>>((acc, subString) => {
-    const [key, value] = subString.split('=')
-    acc[key] = value
+  const [sendLoginRequest] = useGithubLoginMutation()
+  const { setToken } = useAuthorization()
+  const { search } = useLocation()
+  const history = useHistory()
 
-    return acc
-  }, {})
+  const { code, state } = search
+    .replace('?', '')
+    .split('&')
+    .reduce<Record<string, string>>((acc, subString) => {
+      const [key, value] = subString.split('=')
+      acc[key] = value
+      return acc
+    }, {})
 
-  const localState = localStorage.getItem('github_oauth_state')
-  const localRedirectUrl = localStorage.getItem('github_oauth_redirect_url') || origin
+  const localState = localStorage.getItem(fieldGithubState)
+  const localRedirectUrl = localStorage.getItem(fieldRedirectUrl) || origin
 
   // TODO: display error
   function redirect() {
-    document.location.replace(localRedirectUrl)
+    localStorage.removeItem(fieldGithubState)
+    localStorage.removeItem(fieldRedirectUrl)
+    history.replace(localRedirectUrl)
   }
 
   if (localState !== state) {
@@ -51,22 +64,25 @@ export function useGithubCallbackBackgroundProcessing() {
     return
   }
 
-  fetch('https://github.com/login/oauth/access_token', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      client_id: githubClientId,
-      client_secret: githubClientSecret,
-      state,
-      code,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data)
-    })
-    .catch(redirect)
+  if (!code || !state) {
+    redirect()
+    return
+  }
+
+  useEffect(() => {
+    sendLoginRequest({ code, state })
+      .then((data) => {
+        if (!data) {
+          throw new Error('Unexpected error')
+        }
+
+        setToken(data.token)
+        redirect()
+      })
+      .catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(e)
+        redirect()
+      })
+  }, [])
 }

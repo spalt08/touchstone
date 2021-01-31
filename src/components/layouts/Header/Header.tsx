@@ -2,14 +2,15 @@ import React, { memo, useCallback, useState } from 'react'
 import clsx from 'clsx'
 import { Logo, Button, InlineTextInput, AvatarPlaceholder, Avatar } from 'components/ui'
 import { LoginRequiredPopup } from 'components/popups'
-import { User } from 'helpers'
+import { useAccount } from 'hooks'
 import styles from './Header.module.scss'
 
 export type Props = {
-  user?: User
+  className?: string
 }
 
-export default memo(function Header({ user }: Props) {
+export default memo(function Header() {
+  const { data: user } = useAccount()
   const [isLoginPopupOpened, setLoginPopupOpened] = useState(false)
 
   const handleLoginIntent = useCallback(() => setLoginPopupOpened(true), [])
@@ -32,8 +33,8 @@ export default memo(function Header({ user }: Props) {
           <Button variant='outlined' onClick={handleLoginIntent}>
             Save
           </Button>
-          {user?.profileURL ? (
-            <Avatar className={styles.avatar} src={user?.profileURL} size='small' />
+          {user?.avatar_url ? (
+            <Avatar className={styles.avatar} src={user?.avatar_url} size='small' />
           ) : (
             <AvatarPlaceholder className={styles.avatar} onClick={handleLoginIntent} />
           )}

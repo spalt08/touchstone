@@ -4,6 +4,7 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 module.exports = {
   stories: ['../src/**/*.stories.@(tsx|mdx)'],
   addons: [
+    "@storybook/addon-controls",
     "@storybook/addon-links",
     "@storybook/addon-essentials",
   ],
