@@ -3,6 +3,7 @@ const fs = require('fs')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const { DefinePlugin } = require('webpack')
 const dotenv = require('dotenv')
 
@@ -116,4 +117,9 @@ module.exports = {
     port: 4000,
   },
   plugins,
+
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
 }
