@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
-const { DefinePlugin } = require('webpack')
+const webpack = require('webpack')
 const dotenv = require('dotenv')
 
 const srcDir = 'src'
@@ -32,9 +32,15 @@ if (!isProduction) {
   const envPath = fs.existsSync('.env') ? '.env' : '.env.development'
 
   plugins.push(
-    new DefinePlugin({
+    new webpack.DefinePlugin({
       'process.env': JSON.stringify(dotenv.config({ path: envPath }).parsed)
     }),
+  )
+} else {
+  plugins.push(
+    new webpack.EnvironmentPlugin([
+      'GITHUB_CLIENT_ID',
+    ])
   )
 }
 
