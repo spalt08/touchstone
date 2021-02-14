@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import clsx from 'clsx'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import styles from './CodeEditor.module.scss'
@@ -65,6 +65,7 @@ export default function CodeEditor({ defaultValue, onBlur, className }: Props) {
   return (
     <div className={clsx(styles.container, className)}>
       <div ref={ref} />
+      {/* <textarea onBlur={(event) => onBlur && onBlur(event.target.value)} value={defaultValue}></textarea> */}
     </div>
   )
 }
